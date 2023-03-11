@@ -45,8 +45,9 @@ create table salarypayments(
 
 create table student_sport(
 	student_id int,
-    sportGroup int,
-    foreign key(student_id) references students(id)
+    sportGroup_id int,
+    foreign key(student_id) references students(id),
+    foreign key(sportGroup_id) references sportgroups(id)
 );
 
 create table taxespayments(
@@ -69,3 +70,34 @@ values("Георги Тодоров", "0251033960", "Червен бряг, ул
 select id, name, egn, address, phone, class from students;
 
 delete from students where id = 1;
+
+insert into sports(name)
+values("football"), 
+("volleyball"), 
+("handball"),
+("tennis"),
+("swimming"),
+("box"),
+("fitness"),
+("trecking"),
+("boating");
+
+insert into coaches(name, egn)
+values("Gosho", "1111111111"),
+("Tosho", "222222222"),
+("Pesho", "3333333333"),
+("Misho", "4444444444"),
+("Grisho", "5555555555");
+
+insert into sportgroups(location, dayOfWeek, hourOfTraining, sport_id, coach_id)
+values("Mladost 1", "Monday", "12", 1, 1),
+("Mladost 2", "Tuesday", "13", 2, 2),
+("Mladost 3", "Wednesday", "14", 2, 2),
+("Mladost 4", "Thursday", "15", 2, 2),
+("Mladost 1", "Friday", "16", 3, 1),
+("Mladost 1", "Saturday", "17", 1, 5);
+
+select students.name, sports.name
+from student_sport
+inner join students on students.id = student_sport.student_id
+inner join sportgroups on sportgroups.sport_id = sport.id;
