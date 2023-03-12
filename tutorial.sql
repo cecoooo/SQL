@@ -106,7 +106,12 @@ select avg(Price) as averagePrice from Products;
 select sum(Price) as totalSum from Products;
 
 # LIKE
-
+select Country from Customers
+where CustomerName like 'a%';
+select Country from Customers
+where CustomerName like '%s';
+select Country from Customers
+where City like '__%';
 
 
 
