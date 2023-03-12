@@ -106,12 +106,23 @@ select avg(Price) as averagePrice from Products;
 select sum(Price) as totalSum from Products;
 
 # LIKE
-select Country from Customers
-where CustomerName like 'a%';
-select Country from Customers
-where CustomerName like '%s';
-select Country from Customers
-where City like '__%';
+select Country from Customers where CustomerName like 'a%';
+select Country from Customers where CustomerName like '%s';
+select Country from Customers where City like '__%';
+# % _
+select Country from Customers where City like '_ondon';
+select Price from Products where ProductName like '%ee%';
+
+# IN
+select * from Customers where Country in ('UK', 'Sweden', 'Norway');
+select CustomerName, Address from Customers where Country not in ('Mexico');
+select CustomerName from Customers where Country in(select Country from Customers where Country like '_exico');
+
+# BETWEEN
+select * from Products where Price between 10 and 20;
+select ProductName from Products where Price not between 10 and 20;
+select * from Products where Price not between 10 and 20 and CategoryID not in(1);
+select * from Products where ProductName between 'Chais' and 'Aniseed Syrup' order by ProductName;
 
 
 
