@@ -124,6 +124,53 @@ select ProductName from Products where Price not between 10 and 20;
 select * from Products where Price not between 10 and 20 and CategoryID not in(1);
 select * from Products where ProductName between 'Chais' and 'Aniseed Syrup' order by ProductName;
 
+# ALIAS
+select CustomerName as name, ContactName as contact from Customers;
+# single or double qoutes if alias name contains space
+select CustomerName as name, ContactName as 'Person Contact' from Customers;
+# CONCAT_WS() function concatenate contation of several columns into a single text, using separator(first argument)
+select CustomerName, concat_ws(', ', Address, PostalCode, City, Country) as address from Customers;
+# example:
+select c.CustomerName, p.ProductName
+from Customers as c, Products as p
+where c.Country = 'Sweden' and p.Price > 12;
+
+
+
+create table Orders(
+	OrderID int primary key auto_increment,
+    CustomerID int null,
+    ShipperID int null,
+    OrderDate datetime,
+    constraint foreign key(CustomerID) references Customers(CustomerID),
+    constraint foreign key(ShipperID) references Shippers(ShipperID)
+);
+
+insert into Orders()
+values(null, 4, 1, '1996-9-18'),
+(null, 2, 2, '1996-9-19'),
+(null, 3, 3, '1996-9-20');
+
+create table Shippers(
+	ShipperID int primary key auto_increment,
+    ShipperName varchar(20)
+);
+
+insert into Shippers()
+values(null, 'Ivcho'),
+(null, 'Petko'),
+(null, 'Ivan');
+
+# JOIN
+select c.CustomerName, c.CustomerID, o.OrderID, o.OrderDate from Orders as o
+join Customers as c on o.CustomerID = c.CustomerID; 
+# numerate all columns you need from both table then numerate all tables, then point the relation 
+# Three table relation
+select o.OrderID, c.CustomerID, s.ShipperID from
+Orders as o join Customers as c on o.CustomerID = c.CustomerID
+join Shippers as s on s.ShipperID = o.ShipperID;
+
+
 
 
 
