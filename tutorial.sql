@@ -202,7 +202,72 @@ from Customers
 group by Country
 having count(CustomerID) > 5;
 
-#
+# EXISTS
+select CustomerName
+from customers 
+where exists(select CustomerName from customers 
+where CustomerName = 'Ana Trujillo Emparedados y helados');
+
+# ANY, ALL
+# ANY - returns all records from table 'customers' which are equal to any of 'CategotyID' from table 'products'  
+select CustomerName
+from customers
+where CustomerID = any (select CategoryID from products);
+# ALL - returns all records from table 'customers' which are equal to all of 'CategoryID' from table 'products'
+select CustomerName
+from customers
+where CustomerID = any (select CategoryID from products);
+
+create table suppliers(
+SupplierID int primary key auto_increment,
+SupplierName varchar(50) not null,
+SupplierContactName varchar(50),
+SupplierAddress varchar(50) not null,
+SupplierCity varchar(20) not null,
+SupplierPostalCode varchar(10), 
+SupplierCountry varchar(20)
+);
+
+# INSERT SELECT
+# copy whole table into another
+insert into suppliers
+select * from customers;
+# copy some columns from one to another table
+insert into suppliers(SupplierName, SupplierCity, SupplierAddress)
+select CustomerName, City, Address from customers;
+
+# CASE
+select ProductID, ProductName,
+case
+	when Price = 18 then 'Price is equal to 18.'
+    when Price > 18 then 'Price is bigger than 18.'
+    else 'Price is less than 18.'
+end as PriceAmount
+from products;
+# CASE used like order by-then by
+select * from products
+order by(
+	case
+		when Price = null then ProductName
+        when ProductName = null then SupplierID
+        else Price
+	end
+);
+
+# IFNULL(), COALESCE()
+# IFNULL() - takes only two parameters (expresion, value)
+select ifnull(supplierContactName, 'defoult value') from suppliers;
+# COALESCE() - takes multiple parameters (expresion, [multiple number of values...])
+select coalesce(supplierContactName, null, null, 'defoult value') from suppliers;
+
+# comments
+-- hello - '-- ' (note the space) make a comment for the given row
+# - another way to comment the current row
+/*
+	comment everything inside
+*/
+
+
 
 
 
