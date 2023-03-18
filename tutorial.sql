@@ -170,7 +170,39 @@ select o.OrderID, c.CustomerID, s.ShipperID from
 Orders as o join Customers as c on o.CustomerID = c.CustomerID
 join Shippers as s on s.ShipperID = o.ShipperID;
 
+# LEFT JOIN
+select c.CustomerID ,c.CustomerName, o.OrderDate from customers as c
+left join orders as o on c.CustomerID = o.CustomerID;
 
+# RIGHT JOIN
+select c.CustomerID, c.CustomerName, o.OrderDate from
+customers as c right join orders as o on o.CustomerID = c.CustomerID;
+
+# CROSS JOIN
+select c.CustomerName, o.OrderDate from customers as c
+cross join orders as o;
+
+# UNION 
+select CustomerName from customers
+union
+select ProductName from products
+order by CustomerName;
+# unites two columns in a single one
+
+# GROUP BY
+select count(CustomerName) from customers
+group by Country;
+select o.CustomerID, count(c.Country) as 'countries by count' from 
+orders as o join customers as c on c.CustomerID = o.CustomerID
+group by o.CustomerID;
+
+# HAVING 	
+select count(CustomerID), Country
+from Customers
+group by Country
+having count(CustomerID) > 5;
+
+#
 
 
 
