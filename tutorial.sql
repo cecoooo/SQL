@@ -384,8 +384,54 @@ alter table persons
 alter Age drop default; -- drop DEFAULT constraint using ALTER
 alter table persons
 alter Age set default 0; -- set DEFAULT constraint using ALTER
+# CREATE INDEX - used to create indexes in tables
+			   -- indexes are used to retrieve data from table quicker than usual
+create index lastname
+on persons(LName); -- indexes is similar to primary key
+show indexes from persons;
+alter table persons
+drop index lastname; -- drop indexes, using ALTER
+create index lastname
+on persons(FName, LName); -- it can be created a single index for more than one column in a table
+create unique index age
+on persons(Age); -- UNIQUE INDEX does not allow duplicated values
+# AUTO_INCREMENT - generates an unique number automaticatilly for a given field in a table
+				 -- it is not needed to set value for a number field with that constraint
+create table persons (
+    ID int primary key auto_increment,
+    LName varchar(50) not null default '',
+    FName varchar(50) default '',
+    Age int default 0
+); -- AUTO_INCREMENT sets different default values for every record, starting from 1
+alter table person 
+auto_increment = 100; -- by ALTER it is possible to change starting value 
 
+# Dates
+-- Datatypes in MySQL
+/*
+	DATE - YYYY-MM-DD
+    DATETIME - YYYY-MM-DD HH:MI:SS
+    TIMESTAMP - YYYY-MM-DD HH:MI:SS
+    YEAR - YYYY or YY
+*/
+/*
+	The most difficult part when working with dates is to be sure that the format of the date 
+    you are trying to insert, matches the format of the date column in the database.
+    
+    Note: Two dates can easily be compared if there is no time component involved!
+    
+    Tip: To keep your queries simple and easy to maintain, 
+		 do not use time-components in your dates, unless you have to!
+*/
 
+# VIEW
+-- A VIEW contains rows and columns just like a real table
+-- The fields in a VIEW are fields from one or more tables in the current database
+-- Statements and functions can be applied to a VIEW just like to a real table
+create view MyOwnView as
+select c.CustomerName, p.ProductName 
+from customers as c, products as p;
+select * from MyOwnView;
 
 
 
