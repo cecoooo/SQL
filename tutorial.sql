@@ -336,6 +336,56 @@ alter table Persons
 drop primary key; -- remove primary key from the table (using ALTER)
 alter table Persons
 add primary key(ID); -- add a primary key, using ALTER
+# FOREIGN KEY - a field in a table, that refers to another field to another table
+			  -- used to prevent actoins that would destroy relations between tables
+create table sales(
+	SalesID int primary key,
+    SaleNumber varchar(10), 
+    PersonID int,
+    constraint salesPersonLink -- this row is optional, it provides better control over the constraint
+    foreign key(PersonID) references persons(ID) 
+);
+alter table sales
+drop foreign key salesPersonLink; -- remove FOREIGN KEY constraint by ALTER
+alter table sales
+add constraint salesPersonLink -- naming FOREIGN KEY constraint is also optional here
+foreign key(PersonID) references persons(ID);
+# CHECK - limit possible values for a column in a table
+		-- value must responce to condition for the given field
+create table persons (
+    ID int primary key,
+    LName varchar(50) not null,
+    FName varchar(50),
+    Age int, 
+    check(Age >= 18)
+);
+create table persons (
+    ID int primary key,
+    LName varchar(50) not null,
+    FName varchar(50),
+    Age int, 
+    constraint ControlPerson -- naming CHECK constraint is optional
+    check(Age >= 18 and FName <> null)
+);
+alter table persons
+drop check ControlPerson; -- drop CHECK constraint using ALTER
+alter table persons 
+add constraint ControlPerson -- naming CHECK constraint is optional
+check(Age >= 18 and FName <> null); -- create CHECK constraint, using ALTER
+# DEFAULT - sets dafault value for all values in a column in the table
+		  -- if no other value is set, then all records of the field will be fill with the default value
+create table persons (
+    ID int primary key,
+    LName varchar(50) not null default '',
+    FName varchar(50) default '',
+    Age int default 0
+);
+alter table persons
+alter Age drop default; -- drop DEFAULT constraint using ALTER
+alter table persons
+alter Age set default 0; -- set DEFAULT constraint using ALTER
+
+
 
 
 
