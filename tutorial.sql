@@ -267,6 +267,78 @@ select coalesce(supplierContactName, null, null, 'defoult value') from suppliers
 	comment everything inside
 */
 
+show databases; -- look all created databases
+# CREATE DATABASE dbName - create a new database
+# DROP DATABASE dbName - remove a database
+/* CREATE TABLE tableName( 
+	column1 datatype,
+    column2 datatype, 
+    ...
+) - create a new table
+  -	first parameter on every row is the name of the column, 
+	second one is the datatype that column will hold.
+*/	
+# DROP TABLE tableName - remove a table from the database
+# TRUNCATE TABLE tableName - clear data from the table, but does not remove or delete the table
+
+# ALTER TABLE tableName
+-- used to add, delete or modify columns in a table 
+# ADD - add new column with specific type of containing data
+alter table Customers
+add column DateOfBirth datetime;
+# MODIFY - changes datatype of the data that given column contains
+alter table Customers
+modify column DateOfBirth year;
+# DROP - drops(remove) a column from the table
+alter table Customers
+drop column DateOfBirth;
+
+# Constraints - specify rules for data in the table
+-- commonly used constraints:
+# NOT NULL - Ensures that a column cannot have a null value
+create table Persons(
+	ID int not null,
+    FName varchar(50) not null,
+    LName varchar(50) not null,
+    Age int
+);
+# UNIQUE - Ensures that all values in a column are different
+create table Persons(
+	ID int not null,
+    FName varchar(50) not null,
+    LName varchar(50),
+    Age int,
+    unique(ID, FName)
+);
+alter table Persons
+add constraint unique(LName); -- make a field unique, using ALTER
+insert into Persons(ID, FName, LName)
+values(1, 'miro', 'ivanov'),
+(2, 'shisho', 'pertov'),
+(3, 'zahari', null); -- unique field can hold one null value
+# PRIMARY KEY - Uniquely identifies each row in a table (combines NOT NULL and UNIQUE)
+create table Persons(
+	ID int,
+    FName varchar(50) not null,
+    LName varchar(50),
+    Age int,
+    primary key(ID)
+); -- a table could have only one primary key!
+create table Persons(
+	ID int,
+    FName varchar(50) not null,
+    LName varchar(50),
+    Age int,
+    primary key(ID, FName)
+); -- Here we have primary key, created by two columns (ID + FName)
+   -- both fields combined make just one primary key
+alter table Persons
+drop primary key; -- remove primary key from the table (using ALTER)
+alter table Persons
+add primary key(ID); -- add a primary key, using ALTER
+
+
+
 
 
 
