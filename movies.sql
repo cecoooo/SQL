@@ -41,7 +41,8 @@ create table movie_actors(
 	actor_id int,
     movie_id int,
     foreign key(actor_id) references actors(id),
-    foreign key(movie_id) references movies(id)
+    foreign key(movie_id) references movies(id),
+    primary key(actor_id, movie_id)
 );
 
 insert into studios(address, bulstat, name)
@@ -68,13 +69,16 @@ values('Titanic', '1997', '3:15:00', 1, 2, 200.2),
 ('Psycho', '1960', '1:49:00', 3, 1, 0.8);
 
 insert into movie_actors() 
-values(9, 4),
-(10, 4),
+values(9, 5),
+(10, 1),
 (11, 1),
-(9, 2),
-(11, 1),
+(12, 2),
 (12, 3),
-(10, 2);
+(10, 4),
+(11, 5),
+(9, 2),
+(10, 3),
+(12, 4);
 
 select a.name  from actors as a
 where a.address like '%Los Angeles%' 
@@ -93,10 +97,4 @@ join producers as p on p.id = m.producer_id
 where p.name = 'John Smith';
 
 select avg(m.lenght) as avLenBefore2000 from movies as m
-where m.premiereYear < 2000 in(
-select a.name, avg(m.lenght) as avLen from actors as a
-join movie_actors as ma on ma.actor_id = a.id
-join movies as m on m.id = ma.movie_id
-where avLen > avLenBefore2000
-);
-
+where m.premiereYear < '2000';
