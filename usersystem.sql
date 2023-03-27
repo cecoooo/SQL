@@ -39,6 +39,3 @@ select u.username, sum(if(a.moderator_id is not null, 1, 0)) as aproved,
 sum(if(a.moderator_id is null, 1, 0)) as unaproved
 from users as u join articles as a on a.author_id = u.id
 group by u.id;
-
-
-
