@@ -1,4 +1,3 @@
-drop database if exists company;
 create database company;
 use company;
 
@@ -58,9 +57,10 @@ insert into employees(fname, lname, salary, salary_per_hour, department_id, mana
 values('Martina', 'Qnkova', 1500, null, 5, 21),
 ('Stoyan', 'Georgiev', null, 15, 6, 22);
 
+
 insert into projects(name, budjet, department_id, coordinator_id)
-values('AmericaZaBulgaria', 100000000.00, 6, 27),
-('Highway Hemus', 234231534, 5, 28);
+values('AmericaZaBulgaria', 100000000.00, 6, 3),
+('Highway Hemus', 234231534, 5, 4);
 
 alter table employees add experience int not null;
 
@@ -94,5 +94,53 @@ set salary = salary*1.1
 where experience >= 10;
 
 #4
+alter table projects add status varchar(20);
+update projects 
+set status = 'completed'
+where status is null;
+
+select * from projects
+where status <> 'completed';
+
+#5
+select distinct d.id from departments as d
+join projects as p on p.department_id = d.id;
+
+insert into departments(name)
+values('Apartment');
+
+#6
+select * from departments 
+where name like 'A%';
+
+#7
+select * from Employees
+order by salary desc
+limit 5;
+
+#8
+delete from employees where id=1;
+
+#9
+alter table projects add starting_date date;
+update projects
+set starting_date = '2020-09-12';
+
+update projects
+set starting_date = '2021-09-12'
+where id =2;
+
+select * from projects 
+order by starting_date desc
+limit 5;
+
+#10
+select * from employees
+order by lname, fname;
+
+
+
+
+
 
 
