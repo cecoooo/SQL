@@ -61,7 +61,7 @@ create table clubs(
 );
 
 create table players(
-	id int primary key auto_increment,
+	id int,
     fname varchar(20) not null,
     lname varchar(20) not null,
     age int not null,
@@ -72,7 +72,8 @@ create table players(
     club_id int,
     contract_id int,
     foreign key(club_id) references clubs(id),
-    foreign key(contract_id) references contracts(id)
+    foreign key(contract_id) references contracts(id),
+    primary key(id, club_id)
 );
 
 create table tournament_club(
@@ -303,4 +304,62 @@ VALUES
     (22, 'Raphinha', 'Belloli', 24, 'Brazil', 'Forward', 70, 175, 1, 36),
     (23, 'Jules', 'Kounde', 22, 'France', 'Defender', 75, 181, 1, 37),
     (24, 'Eric', 'Garcia', 20, 'Spain', 'Defender', 78, 184, 1, 38);
+ 
+update players set age = age + 1 where club_id = 1; 
+ 
+INSERT INTO contracts (renew_date, expire_date, salary)
+VALUES
+    ('2022-06-30', '2025-06-30', 11000000), -- Tibaut Courtois
+    ('2022-06-30', '2025-06-30', 8000000), -- Daniel Carvajal
+    ('2022-06-30', '2025-06-30', 6000000), -- Eder Militao
+    ('2022-06-30', '2025-06-30', 12000000), -- David Alaba
+    ('2022-06-30', '2023-06-30', 2500000), -- Jesus Vallejo
+    ('2021-06-30', '2022-06-30', 3500000), -- Nacho Fernández
+    ('2022-06-30', '2025-06-30', 18000000), -- Eden Hazard
+    ('2021-06-30', '2023-06-30', 12000000), -- Toni Kroos
+    ('2021-06-30', '2023-06-30', 12000000), -- Karim Benzema
+    ('2021-06-30', '2023-06-30', 12000000), -- Luka Modric
+    ('2022-06-30', '2025-06-30', 6000000), -- Marco Asensio
+    ('2023-06-30', '2026-06-30', 12000000), -- Eduardo Camavinga
+    ('2023-06-30', '2026-06-30', 800000), -- Andriy Lunin
+    ('2022-06-30', '2025-06-30', 7000000), -- Federico Valverde
+    ('2021-06-30', '2022-06-30', 3000000), -- Álvaro Odriozola
+    ('2022-06-30', '2025-06-30', 5000000), -- Lucas Vázquez
+    ('2022-06-30', '2025-06-30', 10000000), -- Aurélien Tchouaméni
+    ('2021-06-30', '2022-06-30', 2000000), -- Daniel Ceballos
+    ('2022-06-30', '2025-06-30', 9000000), -- Vinicius Junior
+    ('2022-06-30', '2025-06-30', 9000000), -- Rodrygo Goes
+    ('2022-06-30', '2025-06-30', 8000000), -- Antonio Rüdiger
+    ('2022-06-30', '2025-06-30', 7000000), -- Ferland Mendy
+    ('2022-06-30', '2025-06-30', 3000000); -- Mariano Díaz
+
+INSERT INTO players (id, fname, lname, age, nationality, position, weight, height, club_id, contract_id)
+VALUES 
+(1, 'Thibaut', 'Courtois', 30, 'Belgium', 'Goalkeeper', 96, 199, 2, 39),
+(2, 'Daniel', 'Carvajal', 30, 'Spain', 'Defender', 73, 173, 2, 40),
+(3, 'Eder', 'Militao', 24, 'Brazil', 'Defender', 81, 186, 2, 41),
+(4, 'David', 'Alaba', 30, 'Austria', 'Defender', 75, 180, 2, 42),
+(5, 'Jesus', 'Vallejo', 25, 'Spain', 'Defender', 78, 185, 2, 43),
+(6, 'Nacho', 'Fernández', 33, 'Spain', 'Defender', 76, 180, 2, 44),
+(7, 'Eden', 'Hazard', 32, 'Belgium', 'Forward', 74, 175, 2, 45),
+(8, 'Toni', 'Kroos', 33, 'Germany', 'Midfielder', 76, 183, 2, 46),
+(9, 'Karim', 'Benzema', 35, 'France', 'Forward', 81, 185, 2, 47),
+(10, 'Luka', 'Modrić', 37, 'Croatia', 'Midfielder', 66, 172, 2, 48),
+(11, 'Marco', 'Asensio', 26, 'Spain', 'Forward', 76, 182, 2, 49),
+(12, 'Eduardo', 'Camavinga', 20, 'France', 'Midfielder', 70, 183, 2, 50),
+(13, 'Andriy', 'Lunin', 23, 'Ukraine', 'Goalkeeper', 81, 190, 2, 51),
+(15, 'Federico', 'Valverde', 24, 'Uruguay', 'Midfielder', 74, 182, 2, 52),
+(16, 'Álvaro', 'Odriozola', 27, 'Spain', 'Defender', 66, 176, 2, 53),
+(17, 'Lucas', 'Vázquez', 31, 'Spain', 'Defender', 70, 173, 2, 54),
+(18, 'Aurélien', 'Tchouaméni', 22, 'France', 'Midfielder', 75, 185, 2, 55),
+(19, 'Daniel', 'Ceballos', 26, 'Spain', 'Midfielder', 70, 179, 2, 56),
+(20, 'Vinícius', 'Júnior', 21, 'Brazil', 'Forward', 73, 176, 2, 57),
+(21, 'Rodrygo', 'Goes', 21, 'Brazil', 'Defender', 63, 174, 2, 58),
+(22, 'Antonio', 'Rüdiger', 29, 'Germany', 'Defender', 85, 190, 2, 59),
+(23, 'Ferland', 'Mendy', 27, 'France', 'Defender', 76, 180, 2, 60),
+(24, 'Mariano', 'Díaz', 29, 'Dominican Republic', 'Forward', 81, 184, 2, 61);
+
+
+
+
 
