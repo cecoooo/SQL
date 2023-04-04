@@ -3,9 +3,9 @@ use UEFA;
 
 create table owners(
 	id int primary key auto_increment,
-    fname varchar(20) not null,
+    fname varchar(20),
     lname varchar(20) not null,
-    age int not null,
+    age int,
     nationality varchar(30) not null,
     net_worth double
 );
@@ -21,7 +21,7 @@ create table tournaments(
 	id int primary key auto_increment,
     name varchar(40) not null,
     year year not null,
-    num_of_competitors int not null
+    num_of_competitors int
 );
 
 create table coaches(
