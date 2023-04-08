@@ -1,3 +1,4 @@
+use school_sport_clubs;
 #1
 DELIMITER $
 CREATE PROCEDURE zad1(IN coachName VARCHAR(255))
