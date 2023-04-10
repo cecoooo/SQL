@@ -359,7 +359,55 @@ VALUES
 (23, 'Ferland', 'Mendy', 27, 'France', 'Defender', 76, 180, 2, 60),
 (24, 'Mariano', 'Díaz', 29, 'Dominican Republic', 'Forward', 81, 184, 2, 61);
 
+INSERT INTO contracts (renew_date, expire_date, salary)
+VALUES 
+('2023-01-01', '2025-01-01', 5000000), -- Jan Oblak
+('2022-12-01', '2024-12-01', 1500000), -- Ivo Grbic
+('2023-06-01', '2025-06-01', 4000000), -- José María Giménez
+('2022-09-01', '2024-09-01', 1200000), -- Mario Hermoso
+('2022-08-01', '2024-08-01', 3000000), -- Stefan Savic
+('2023-04-01', '2025-04-01', 800000), -- Reinildo Mandava
+('2022-10-01', '2024-10-01', 2000000), -- Sergio Reguilón
+('2023-02-01', '2025-02-01', 1000000), -- Nahuel Molina
+('2022-07-01', '2024-07-01', 2500000), -- Matt Doherty
+('2023-03-01', '2025-03-01', 3500000), -- Geoffrey Kondogbia
+('2023-01-15', '2025-01-15', 4500000), -- Axel Witsel
+('2023-07-01', '2025-07-01', 6000000), -- Rodrigo de Paul
+('2022-11-01', '2024-11-01', 4000000), -- Marcos Llorente
+('2023-05-01', '2025-05-01', 7000000), -- Koke Merodio
+('2023-08-01', '2025-08-01', 5500000), -- Saúl Ñíguez
+('2022-12-15', '2024-12-15', 900000), -- Pablo Barrios
+('2023-04-15', '2025-04-15', 2000000), -- Thomas Lemar
+('2023-02-15', '2025-02-15', 3000000), -- Yannick Carrasco
+('2023-06-15', '2025-06-15', 8000000), -- Ángel Correa
+('2022-09-15', '2024-09-15', 10000000), -- Antoine Griezmann
+('2023-03-15', '2025-03-15', 12000000), -- Álvaro Morata
+('2023-01-31', '2025-01-31', 15000000); -- Memphis Depay
 
+INSERT INTO players (id, fname, lname, age, nationality, position, weight, height, club_id, contract_id)
+VALUES 
+(13, 'Jan', 'Oblak', 29, 'Slovenia', 'Goalkeeper', 87, 188, 3, 90),
+(1, 'Ivo', 'Grbic', 25, 'Croatia', 'Goalkeeper', 85, 194, 3, 91),
+(2, 'José María', 'Giménez', 26, 'Uruguay', 'Defender', 77, 185, 3, 92),
+(22, 'Mario', 'Hermoso', 26, 'Spain', 'Defender', 75, 180, 3, 93),
+(15, 'Stefan', 'Savic', 30, 'Montenegro', 'Defender', 82, 186, 3, 94),
+(23, 'Reinildo', 'Mandava', 28, 'Mozambique', 'Defender', 72, 181, 3, 95),
+(3, 'Sergio', 'Reguilón', 25, 'Spain', 'Defender', 74, 178, 3, 96),
+(16, 'Nahuel', 'Molina', 24, 'Argentina', 'Defender', 70, 177, 3, 97),
+(12, 'Matt', 'Doherty', 29, 'Ireland', 'Defender', 76, 183, 3, 98),
+(4, 'Geoffrey', 'Kondogbia', 28, 'Central African Republic', 'Midfielder', 82, 188, 3, 99),
+(20, 'Axel', 'Witsel', 32, 'Belgium', 'Midfielder', 70, 186, 3, 100),
+(5, 'Rodrigo de', 'Paul', 27, 'Argentina', 'Midfielder', 68, 172, 3, 101),
+(14, 'Marcos', 'Llorente', 27, 'Spain', 'Midfielder', 70, 178, 3, 102),
+(6, 'Koke', '', 30, 'Spain', 'Midfielder', 78, 178, 3, 103),
+(17, 'Saúl', 'Ñíguez', 27, 'Spain', 'Midfielder', 76, 183, 3, 104),
+(24, 'Pablo', 'Barrios', 21, 'Spain', 'Midfielder', 65, 173, 3, 105),
+(11, 'Thomas', 'Lemar', 26, 'France', 'Forward', 63, 167, 3, 106),
+(21, 'Yannick', 'Carrasco', 28, 'Belgium', 'Forward', 70, 181, 3, 107),
+(10, 'Ángel', 'Correa', 27, 'Argentina', 'Forward', 70, 172, 3, 108),
+(8, 'Antoine', 'Griezmann', 30, 'France', 'Forward', 73, 176, 3, 109),
+(19, 'Álvaro', 'Morata', 29, 'Spain', 'Forward', 85, 189, 3, 110),
+(9, 'Memphis', 'Depay', 28, 'Netherlands', 'Forward', 78, 176, 3, 111);
 
-
+select * from contracts;
 
