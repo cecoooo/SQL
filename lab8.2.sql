@@ -37,7 +37,21 @@ where id = 1;
 insert into salarypayments select * from salarypayments_log;
 
 #4
+drop procedure convert_currency;
+use transaction_test;
+delimiter $
+create procedure convert_currency(amount double, currency varchar(3))
+begin
+	set @res = 0;
+	if currency = 'BGN' then set @res := amount/2;
+    elseif currency = 'EUR' then set @res := amount*2;
+    else select 'Invalid currency.';
+    end if;
+    select @res;
+end $
+delimiter ;
 
+call convert_currency(20, 'EUR');
 
 
 
