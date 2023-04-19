@@ -37,23 +37,59 @@ where id = 1;
 insert into salarypayments select * from salarypayments_log;
 
 #4
-drop procedure convert_currency;
 use transaction_test;
+drop procedure convert_currency;
 delimiter $
-create procedure convert_currency(amount double, currency varchar(3))
+create procedure convert_currency(amount double, currency varchar(3), out res double)
 begin
-	set @res = 0;
-	if currency = 'BGN' then set @res := amount/2;
-    elseif currency = 'EUR' then set @res := amount*2;
+	if currency = 'BGN' then set res = amount/2;
+    elseif currency = 'EUR' then set res = amount*2;
     else select 'Invalid currency.';
     end if;
-    select @res;
 end $
 delimiter ;
 
-call convert_currency(20, 'EUR');
+set @result = 0;
+call convert_currency(20, 'EUR', @result);
+select @result;
 
 
+#5
+drop procedure ex5;
+delimiter $
+create procedure ex5(idProvider int, idRecipient int, sumAmount double)
+begin
+	start transaction;
+		select @initialValue := amount from customer_accounts where id = IdProvider;
+		update customer_accounts
+        set amount = case when
+			amount < sumAmount then amount
+            else amount - sumAmount end
+        where id = idProvider;
+        select @changedValue := amount from customer_accounts where id = IdProvider;
+        if @initialValue = @changedValue then 
+        signal sqlstate '45000' set message_text = 'Not enough money in the discount.';
+        end if;
+        select @currencyProvider := currency from customer_accounts where id = IdProvider;
+        select @currencyRecipient := currency from customer_accounts where id = IdRecipient;
+        set @sumToAdd = sumAmount;
+        if @currencyProvider not like @currencyRecipient then 
+        set @sumToAdd = 0;
+        call convert_currency(sumAmount, @currencyProvider, @sumToAdd);
+        end if;
+        update customer_accounts
+        set amount = amount + @sumToAdd
+        where id = idRecipient;
+	commit;
+end $
+delimiter ;
 
+call ex5(2, 1, 5000);
 
-
+update customer_accounts
+set amount = 8850
+where id = 2;
+update customer_accounts
+set amount = 4500
+where id = 1;
+select * from customer_accounts;
