@@ -33,6 +33,8 @@ create table admins_articles(
     primary key(admin_id, article_id)
 );
 
+
+
 delimiter $
 create trigger before_insert_article
 before insert
@@ -52,17 +54,6 @@ end $
 delimiter ;
 
 delimiter $
-create trigger before_insert_users
-before insert
-on users for each row
-begin
-	if(length(new.username) < 4) then call create_error('name');
-    elseif(length(new.pass) < 6) then call create_error('pass');
-    end if;
-end $
-delimiter ;
-
-delimiter $
 create procedure create_error(arg varchar(4))
 begin
 	set @mess = '';
@@ -74,6 +65,17 @@ begin
 		set @mess = 'User has no admin rights to create articles.';
 	end if;
     signal sqlstate '45000' set message_text = @mess;
+end $
+delimiter ;
+
+delimiter $
+create trigger before_insert_users
+before insert
+on users for each row
+begin
+	if(length(new.username) < 4) then call create_error('name');
+    elseif(length(new.pass) < 6) then call create_error('pass');
+    end if;
 end $
 delimiter ;
 
@@ -132,4 +134,3 @@ end $
 delimiter ;
 
 call show_comments_by_user('cocaineking', 'fee423');
-
