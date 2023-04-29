@@ -60,11 +60,17 @@ delimiter ;
 */
 
 
+-- temporary tables
 
+drop temporary table if exists player_club;
+create temporary table player_club
+select concat(p.fname,' ', p.lname) as player, c.name as club, ct.salary
+from players as p
+join clubs as c on p.club_id = c.id
+join contracts as ct on ct.id = p.contract_id
+order by ct.salary;
 
-
-
-
+select * from player_club;
 
 
 
