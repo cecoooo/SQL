@@ -94,8 +94,8 @@ insert into users(username, pass, is_admin)
 values('gosho69', 'qfwfwe42533', true),
 ('ivan68', 'fwerf-09t24', true),
 ('niki67', 'vregr054', false),
-('razbiva4anajenskisurca', 'f3r34342', false),
-('cocaineking', 'fee423', true),
+('to6o3', 'f3r34342', false),
+('mis6o', 'fee423', true),
 ('lookatmynudes', 'gwer32432', true);
 
 insert into articles(title , content)
@@ -133,4 +133,67 @@ begin
 end $
 delimiter ;
 
-call show_comments_by_user('cocaineking', 'fee423');
+call show_comments_by_user('mis6o', 'fee423');
+
+
+#2 - Напишете заявка, в която демонстрирате SELECT с ограничаващо условие по избор
+select username from users where is_admin = true;
+
+#3 -Напишете заявка, в която използвате агрегатна функция и GROUP BY по ваш избор
+select count(user_id) as 'number of comments by user with id=5' from comments as c
+group by(user_id) 
+having user_id = 5;
+
+#4 - Напишете заявка, в която демонстрирате INNER JOIN по ваш избор
+select a.title as article, u.username as author from articles as a
+join admins_articles as aa on aa.article_id = a.id
+join users as u on u.id = aa.admin_id;
+
+#5 - Напишете заявка, в която демонстрирате OUTER JOIN по ваш избор
+select c.time_of_pub as 'publish time', a.title article
+from articles as a
+left join comments as c on c.article_id = a.id
+union 
+select c.time_of_pub as 'publish time', a.title article
+from articles as a
+right join comments as c on c.article_id = a.id;
+
+#6 - Напишете заявка, в която демонстрирате вложен SELECT по ваш избор
+select username, count(user_id) from (
+	select u.username, c.user_id from users as u
+    join comments as c on c.user_id = u.id
+) as t
+group by(username);
+
+#7 - Напишете заявка, в която демонстрирате едновременно JOIN и агрегатна функция
+select u.username, count(a.id) from users as u
+join admins_articles aa on aa.admin_id = u.id
+join articles as a on a.id = aa.article_id
+group by(u.username);
+
+#8 Създайте тригер по ваш избор
+-- тригери бол нагоре
+
+#9 Създайте процедура, в която демонстрирате използване на курсор
+delimiter \\
+drop procedure if exists list_of_all_users;
+create procedure list_of_all_users(inout u_list varchar(4000))
+begin
+	declare finish int;
+    declare us varchar(50);
+    declare cursorUser cursor for select username from users;
+    declare continue handler for not found set finish = 1;
+    
+    open cursorUser;
+    getUser: loop
+		fetch cursorUser into us;
+        if finish = 1 then leave getUser; end if;
+        set u_list = concat(us, ';', u_list);
+        end loop getUser;
+	close cursorUser;
+end \\
+delimiter ;
+
+set @u_list = '';
+call list_of_all_users(@u_list);
+select @u_list;
