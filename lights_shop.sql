@@ -35,6 +35,13 @@ create table ordered_product(
     foreign key(order_id) references orders(id) 
 );
 
+insert into models(price, power, name_light, quantity_left)
+values(88.90, 6, "desk lamp", 100),
+(20.00, 6, "ceiling lamp", 160),
+(31.90, 12, "LED", 100),
+(2.30, 9, "bulb", 1000),
+(213.90, 40, "chandelier", 5);
+
 
 
 
