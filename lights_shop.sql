@@ -43,8 +43,14 @@ values(88.90, 6, "desk lamp", 100),
 (213.90, 40, "chandelier", 5);
 
 
+select * from customers;
 
-
-
+create event deliveryTrue
+on schedule at current_timestamp() + interval 3 day
+on completion preserve
+do
+update orders
+set is_filled = true
+where order_date = current_timestamp() - interval 3 day;
 
 
