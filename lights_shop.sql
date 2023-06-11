@@ -30,7 +30,7 @@ create table ordered_product(
 	id int primary key auto_increment,
     quantity int,
     model_id int,
-    order_id int,
+	order_id int,
     foreign key(model_id) references models(id),
     foreign key(order_id) references orders(id) 
 );
@@ -44,6 +44,12 @@ values(88.90, 6, "desk lamp", 100),
 
 
 select * from customers;
+select * from orders;
+select * from ordered_product;
+
+delete from customers;
+delete from orders;
+delete from ordered_product;
 
 create event deliveryTrue
 on schedule at current_timestamp() + interval 3 day
