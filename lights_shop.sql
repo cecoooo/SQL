@@ -11,12 +11,14 @@ create table customers(
 
 create table orders(
 	id int primary key auto_increment,
-	order_date datetime,
+	order_date timestamp,
     firm_name varchar(50),
     is_filled boolean,
     customer_id int,
     foreign key(customer_id) references customers(id)
 );
+
+ALTER TABLE orders MODIFY order_date timestamp;
 
 create table models(
 	id int primary key auto_increment,
@@ -58,5 +60,4 @@ do
 update orders
 set is_filled = true
 where order_date = current_timestamp() - interval 3 day;
-
 
