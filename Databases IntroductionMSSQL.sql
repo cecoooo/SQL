@@ -109,3 +109,55 @@ alter table [Users]
 add constraint CK_Username_Users
 check(datalength([username]) >= 3)
 go
+
+-- problem 13
+go
+
+drop database if exists [Movies]
+create database [Movies]
+
+go
+
+use [Movies]
+
+go
+
+create table [Directors](
+	[id] int identity(1,1),
+	constraint PK_Directors primary key([id]),
+	[directorName] varchar(150) not null,
+	[notes] text
+)
+
+create table [Genres](
+	[id] int identity(1,1),
+	constraint PK_Genres primary key([id]),
+	[genreName] varchar(100) not null,
+	[notes] text,
+)
+
+create table [Categories](
+	[id] int identity(1,1),
+	constraint PK_Categories primary key([id]),
+	[CategoryName] varchar(100) not null,
+	[notes] text
+)
+
+go
+
+create table [Movies](
+	[id] int identity(1,1),
+	constraint PK_Movies primary key(id),
+	[Title] varchar(100) not null,
+	[DirectorId] int not null foreign key references [Directors](id),
+	[CopyrightYear] date,
+	[Length] int not null,
+	[GenreId] int not null foreign key references [Genres](id),
+	[CategoryId] int not null foreign key references [Categories](id),
+	[Rating] decimal,	
+	Notes text
+)
+
+go
+
+insert into table 
