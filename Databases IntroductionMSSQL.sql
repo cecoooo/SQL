@@ -296,3 +296,66 @@ VALUES
 (2, 2, 6, 0.80, 3000.00, 3045.00, '2023-09-11', '2023-09-16', 5, 225.00, 0.08, 'Completed', 'Corporate rental'),
 (3, 3, 7, 0.70, 7000.00, 7075.00, '2023-09-12', '2023-09-17', 5, 300.00, 0.08, 'Completed', 'Regular customer');
 
+-- Problem16
+
+create database [SoftUni];
+
+use [SoftUni];
+
+create table [Towns](
+	[id] int identity(1,1),
+	constraint PK_Towns primary key([id]),
+	[name] varchar(100) not null
+)
+
+create table [Addresses](
+	[id] int identity(1,1),
+	constraint PK_Addresses primary key([id]),
+	[AddressText] text not null,
+	[TownId] int not null foreign key references [Towns]([id]) 
+)
+
+create table [Departments](
+	[id] int identity(1,1),
+	constraint PK_Departments primary key([id]),
+	[name] varchar(100) not null
+)
+
+create table [Employees](
+	[id] int identity(1,1),
+	constraint PK_Employees primary key([id]),
+	[FirstName] varchar(50) not null,
+	[MiddleName] varchar(50),
+	[LastName] varchar(50) not null,
+	[JobTitle] varchar(150) not null,
+	[DepartmentId] int foreign key references [Departments](id),
+	[HireDate] date not null,
+	[Salary] decimal(9,2) not null,
+	[AddressId] int foreign key references [Addresses](id)
+)
+
+INSERT INTO Towns ([name])
+VALUES ('Sofia'),
+       ('Plovdiv'),
+       ('Varna'),
+       ('Burgas');
+
+INSERT INTO Departments ([name])
+VALUES ('Engineering'),
+       ('Sales'),
+       ('Marketing'),
+       ('Software Development'),
+       ('Quality Assurance');
+
+insert into [Employees]([FirstName], [MiddleName], [LastName], [JobTitle], [DepartmentId], [HireDate], [Salary])
+values
+('Ivan', 'Ivanov', 'Ivanov', '.NET Developer', 4, '2013-02-01', 3500.00),
+('Petar', 'Petrov', 'Petrov', 'Senior Engineer', 1, '2004-03-02', 4000.00),
+('Maria', 'Petrova', 'Ivanova', 'Intern', 5, '2016-08-28', 525.25),
+('Georgi', 'Teziev', 'Ivanov', 'CEO', 2, '2007-12-09', 3000.00),
+('Peter', 'Pan', 'Pan', 'Intern', 3, '2016-08-28', 599.88);
+
+select * from [Towns];
+select * from [Departments];
+select * from [Employees];
+
