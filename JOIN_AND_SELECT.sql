@@ -118,3 +118,41 @@ FROM Employees e
 JOIN Departments d ON e.DepartmentID = d.DepartmentID
 GROUP BY e.DepartmentID
 ORDER BY MinAverageSalary;
+
+-- 12
+USE	[Geography]
+
+SELECT 
+	c.CountryCode
+	,m.MountainRange
+	,p.PeakName
+	,p.Elevation
+FROM Peaks p
+JOIN Mountains m ON p.MountainId = m.Id
+JOIN MountainsCountries mc ON m.Id = mc.MountainId
+JOIN Countries c ON c.CountryCode = mc.CountryCode
+WHERE p.Elevation > 2835 AND c.CountryCode = 'BG'
+ORDER BY p.Elevation DESC;
+
+-- 13
+SELECT 
+	c.CountryCode
+	,COUNT(m.MountainRange) MountainRanges
+FROM Countries c
+JOIN MountainsCountries mc ON c.CountryCode = mc.CountryCode
+JOIN Mountains m ON m.Id = mc.MountainId
+GROUP BY c.CountryCode
+HAVING c.CountryCode in ('BG', 'RU', 'US')
+
+-- 14
+SELECT TOP(5)
+	c.CountryName
+	,r.RiverName
+FROM Countries c
+LEFT JOIN CountriesRivers cr ON cr.CountryCode = c.CountryCode
+LEFT JOIN Rivers r ON r.Id = cr.RiverId
+JOIN Continents cn ON c.ContinentCode = cn.ContinentCode
+WHERE cn.ContinentCode = 'AF'
+ORDER BY c.CountryName;
+
+
