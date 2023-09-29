@@ -155,4 +155,39 @@ JOIN Continents cn ON c.ContinentCode = cn.ContinentCode
 WHERE cn.ContinentCode = 'AF'
 ORDER BY c.CountryName;
 
+-- 15
+SELECT 
+	co.ContinentCode
+	,cu.CurrencyCode
+	,c.*
+FROM Continents co
+JOIN Countries c ON c.ContinentCode = co.ContinentCode
+JOIN Currencies cu ON cu.CurrencyCode = c.CurrencyCode
+GROUP BY co.ContinentCode, cu.CurrencyCode
+
+SELECT 
+	cu.CurrencyCode
+	,c.CountryName
+FROM Currencies cu
+JOIN Countries c ON c.CurrencyCode = cu.CurrencyCode
+GROUP BY cu.CurrencyCode
+
+-- 16
+SELECT COUNT(*) Count FROM Countries c
+LEFT JOIN MountainsCountries mc ON mc.CountryCode = c.CountryCode
+WHERE MC.MountainId IS NULL;
+
+-- 17
+SELECT TOP(5)
+	c.CountryName
+	,MAX(p.Elevation) HighestPeakElevation
+	,MAX(r.[Length]) LongestRiverLength
+FROM Countries c
+LEFT JOIN MountainsCountries mc ON mc.CountryCode = c.CountryCode
+JOIN Mountains m ON m.id = mc.MountainId
+JOIN CountriesRivers cr ON cr.CountryCode = c.CountryCode
+JOIN Rivers r ON r.Id = cr.RiverId
+JOIN Peaks p ON p.MountainId = m.id
+GROUP BY c.CountryName
+ORDER BY HighestPeakElevation DESC, LongestRiverLength DESC, c.CountryName;
 
