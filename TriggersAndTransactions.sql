@@ -98,3 +98,106 @@ END
 
 --Test
 usp_TransferMoney @SenderId = 2, @ReceiverId = 1, @Amount = 10
+
+-- 6
+USE Diablo
+
+
+-- 7
+BEGIN TRANSACTION
+
+UPDATE UsersGames
+SET Cash -= (
+	SELECT 
+	SUM(i.Price)
+	FROM Users u
+	JOIN UsersGames ug ON u.Id = ug.UserId
+	JOIN Games g ON ug.GameId = g.Id
+	JOIN UserGameItems ugi ON ugi.UserGameId = ug.Id
+	JOIN Items i ON i.Id = ugi.ItemId
+	WHERE ug.[Level] IN(11,12,19,20,21)  
+)
+WHERE id = (SELECT TOP(1)
+	ug.Id
+FROM Users u
+JOIN UsersGames ug ON ug.UserId = u.Id
+JOIN Games g ON g.Id = ug.GameId
+WHERE u.Username = 'Stamat' AND g.Name = 'Safflower')
+
+IF (SELECT TOP(1)
+	Cash
+FROM UsersGames
+WHERE Id = (SELECT TOP(1)
+	ug.Id
+FROM Users u
+JOIN UsersGames ug ON ug.UserId = u.Id
+JOIN Games g ON g.Id = ug.GameId
+WHERE u.Username = 'Stamat' AND g.Name = 'Safflower')) < 0
+BEGIN 
+	ROLLBACK
+END
+
+INSERT INTO UserGameItems(ItemId, UserGameId)
+SELECT 
+	i.id
+	,(SELECT TOP(1)
+	ug.Id
+FROM Users u
+JOIN UsersGames ug ON ug.UserId = u.Id
+JOIN Games g ON g.Id = ug.GameId
+WHERE u.Username = 'Stamat' AND g.Name = 'Safflower')
+FROM Items i
+JOIN UserGameItems ugi ON i.Id = ugi.ItemId
+JOIN UsersGames ug ON ug.Id = ugi.UserGameId
+WHERE [Level] IN(11,12,19,20,21)  
+
+COMMIT
+
+-- 8
+USE SoftUni
+
+CREATE PROCEDURE usp_AssignProject @emloyeeId INT, @projectID INT
+AS
+BEGIN 
+	BEGIN TRANSACTION
+	DECLARE @numOfProjects INT;
+	SELECT @numOfProjects = COUNT(*) FROM EmployeesProjects
+	WHERE EmployeeID = @emloyeeId
+
+	IF @numOfProjects > 3 
+	BEGIN;
+		THROW 16, 'The employee has too many projects!', 1
+	END;
+
+	INSERT INTO EmployeesProjects(EmployeeID, ProjectID)
+	VALUES(@emloyeeId, @projectID)
+
+	COMMIT
+END
+
+-- 9 
+CREATE TABLE Deleted_Employees(
+EmployeeId INT PRIMARY KEY IDENTITY(1,1)
+,FirstName VARCHAR(100) NOT NULL
+,LastName VARCHAR(100) NOT NULL
+,MiddleName VARCHAR(100) NOT NULL
+,JobTitle VARCHAR(100) NOT NULL
+,DepartmentId INT FOREIGN KEY REFERENCES Departments(DepartmentID) 
+,Salary DECIMAL(9,2)
+)
+
+CREATE TRIGGER AfterFiringEmployees
+ON Employees
+FOR DELETE
+AS
+BEGIN
+	INSERT INTO Deleted_Employees(FirstName, LastName, MiddleName, JobTitle, DepartmentId, Salary)
+	SELECT 
+		FirstName
+		,LastName
+		,MiddleName
+		,JobTitle
+		,DepartmentID
+		,Salary
+	FROM deleted
+END
